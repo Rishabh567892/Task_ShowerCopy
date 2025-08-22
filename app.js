@@ -1,4 +1,4 @@
-require("dotenv").config({path: `.env.${process.env.NODE_ENV || 'development'}.local`})
+require("dotenv").config()
 const express = require("express");
 const app = express();
 const connectToDB = require("./database/connectToDB")
