@@ -10,7 +10,7 @@ const registerUser = async (req, res) => {
   // verifies is the email already in-use.
   const existingUser = await User.findOne({ email: email });
   if (existingUser) return res.status(409).json({
-    status: false,
+    success: false,
     message: "username or email already exists"
   })
 
@@ -25,7 +25,7 @@ const registerUser = async (req, res) => {
   } catch (error) {
     // if error occurs while creating a hash password
     return res.status(500).json({
-      status: false,
+      success: false,
       error: error.message,
       message: "password cannot be secured",
     })
@@ -43,7 +43,7 @@ const registerUser = async (req, res) => {
   } catch (error) {
     // error if user cannot be created in data-base
     return res.status(401).json({
-      status: false,
+      success: false,
       error: error.message,
       message: "you cannot be registered"
     })
@@ -64,7 +64,7 @@ const registerUser = async (req, res) => {
 
   // message for user being successfully created
   res.status(201).json({
-    status: true,
+    success: true,
     message: 'you are registered as a new user',
     token
   })
@@ -81,7 +81,7 @@ const loginUser = async (req, res) => {
 
     // if there isn't any user with such email
     if (!existingUser) return res.status(401).json({
-      status: false,
+      success: false,
       message: "Invalid password or email"
     })
 
@@ -90,7 +90,7 @@ const loginUser = async (req, res) => {
 
     // if both passwords aren't the same
     if (!isMatch) return res.status(401).json({
-      status: false,
+      success: false,
       message: "Invalid password or email"
     })
 
@@ -107,14 +107,14 @@ const loginUser = async (req, res) => {
 
     // if email and password are correct
     res.status(200).json({
-      status: true,
+      success: true,
       message: "you logged in successfully",
       token
     })
 
   } catch (error) {
     return res.status(500).json({
-      status: false,
+      success: false,
       message: "Internal server error",
       error: error.message
     })
@@ -128,14 +128,14 @@ const deleteUser = async (req, res) => {
     // check whether the user exists
     const existingUser = await User.findOne({ email: req.user.email });
     if (!existingUser) return res.status(404).json({
-      status: false,
+      success: false,
       message: "Invalid credentials"
     })
 
     // compares passwords from user and data-base
     const isMatch = await bcrypt.compare(password, existingUser.password);
     if (!isMatch) return res.status(401).json({
-      status: false,
+      success: false,
       message: "Invalid password"
     })
 
@@ -144,13 +144,13 @@ const deleteUser = async (req, res) => {
     await Task.findOneAndDelete({user: existingUser._id}) // find is there a document based on this user in Task model
 
     return res.status(200).json({
-      status: true,
+      success: true,
       message: "Account deleted Successfully"
     })
 
   } catch (error) {
     return res.status(500).json({
-      status: false,
+      success: false,
       error: error.message,
       message: "Internal server error"
     })
