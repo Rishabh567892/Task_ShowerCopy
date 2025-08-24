@@ -9,7 +9,7 @@ const tasksRouter = require("./routes/tasks.routes")
 const { authenticateToken, verfiyTask } = require("./middlewares/auth.middleware");
 
 app.use(cors({
-  origin: "https://taskshower.netlify.app/",
+  origin: "*",
   methods: "*"
 }))
 
