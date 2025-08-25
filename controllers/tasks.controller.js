@@ -2,8 +2,8 @@
 const showTasks = async (req, res) => {
   const task = req.task;
 
-  if (Number(task.numberOfTasks) === 0) {
-    return res.status(204).json({
+  if (Array(task.tasks).length === 0) {
+    return res.status(404).json({
       success: true,
       message: "No tasks available",
       tasks: []
