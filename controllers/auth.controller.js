@@ -60,7 +60,12 @@ const registerUser = async (req, res) => {
     }
   )
 
-  await Token.create({token: token})
+  await Token.create({ token: token })
+
+  await Task.create({
+    user: user._id || user.id,
+    tasks: []
+  })
 
   // message for user being successfully created
   res.status(201).json({
@@ -141,7 +146,7 @@ const deleteUser = async (req, res) => {
 
     await existingUser.deleteOne(); // delete the existingUser
 
-    await Task.findOneAndDelete({user: existingUser._id}) // find is there a document based on this user in Task model
+    await Task.findOneAndDelete({ user: existingUser._id }) // find is there a document based on this user in Task model
 
     return res.status(200).json({
       success: true,
