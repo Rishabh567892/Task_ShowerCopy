@@ -21,10 +21,8 @@ const validateResult = (req, res, next) => {
 }
 
 const authenticateToken = async (req, res, next) => {
-  const authHeader = req.headers["authorization"];
+  const authHeader = req.headers["authorization"] || req.headers["Authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-
-  // console.log(token)
 
   if (!token) return res.status(401).json({
     status: false,

@@ -162,4 +162,12 @@ const deleteUser = async (req, res) => {
   }
 }
 
-module.exports = { registerUser, loginUser, deleteUser };
+const verifyUser = async (req, res) => {
+
+  res.status(200).json({
+    success: true,
+    message: "user is logged in"
+  })
+}
+
+module.exports = { registerUser, loginUser, deleteUser, verifyUser };
