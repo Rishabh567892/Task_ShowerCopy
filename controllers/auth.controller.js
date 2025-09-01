@@ -1,6 +1,5 @@
 const User = require("../models/user.model")
 const Task = require("../models/task.model")
-const Token = require("../models/token.model")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
@@ -59,8 +58,6 @@ const registerUser = async (req, res) => {
       expiresIn: process.env.JWT_EXPIRES_IN
     }
   )
-
-  await Token.create({ token: token })
 
   await Task.create({
     user: user._id || user.id,
